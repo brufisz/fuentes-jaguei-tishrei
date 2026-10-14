@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memotest de Tishrei</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Memotest de Tishrei</h1>
+  <p>Encontrá las parejas y descubrí los símbolos de las festividades.</p>
+
+  <main class="juego">
+    <section class="zona-tablero">
+      <p id="mensaje" aria-live="polite"></p>
+
+      <div id="tablero"></div>
+
+      <button id="reiniciar" onclick="location.reload()">
+        Reiniciar
+      </button>
+    </section>
+
+    <aside>
+      <h2>Símbolos encontrados</h2>
+
+      <p id="sinEncontrados">
+        Encontrá una pareja para empezar tu colección.
+      </p>
+
+      <div id="encontrados"></div>
+
+      <section id="detalle" hidden aria-live="polite">
+        <h3 id="nombreSimbolo"></h3>
+
+        <p>
+          <strong>Festividad:</strong>
+          <span id="fiestaSimbolo"></span>
+        </p>
+
+        <p id="infoSimbolo"></p>
+
+        <a id="fuenteSimbolo" target="_blank" rel="noopener noreferrer">
+          Leer más sobre este símbolo
+        </a>
+      </section>
+    </aside>
+  </main>
+
+  <section id="preferencia" hidden>
+    <h2>¿Cuál de las cuatro festividades de Tishrei te gusta más?</h2>
+    <p>Elegí después de conocer sus símbolos.</p>
+
+    <button class="opcion-fiesta" onclick="elegirFiesta(this)">
+      Rosh Hashaná
+    </button>
+
+    <button class="opcion-fiesta" onclick="elegirFiesta(this)">
+      Iom Kipur
+    </button>
+
+    <button class="opcion-fiesta" onclick="elegirFiesta(this)">
+      Sucot
+    </button>
+
+    <button class="opcion-fiesta" onclick="elegirFiesta(this)">
+      Simjat Torá
+    </button>
+
+    <p id="eleccion" aria-live="polite"></p>
+  </section>
+
+  <script src="main.js"></script>
+</body>
+</html>

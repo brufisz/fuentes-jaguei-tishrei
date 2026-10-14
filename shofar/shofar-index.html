@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El desafío del shofar</title>
+  <link rel="stylesheet" href="shofar-style.css">
+  <script src="shofar-main.js" defer></script>
+</head>
+
+<body>
+  <main>
+    <p class="fiesta">ROSH HASHANÁ</p>
+    <h1>El desafío del shofar</h1>
+
+    <p>
+      Escuchá los cuatro sonidos y arrastrá cada nombre
+      al espacio correspondiente.
+    </p>
+
+    <section class="sonidos">
+
+      <article>
+        <button id="sonido0" class="boton-sonido"
+          onclick="reproducir(0)">
+          ▶ Sonido 1
+        </button>
+
+        <div id="slot0" class="slot"
+          tabindex="0"
+          role="group"
+          aria-label="Respuesta para el sonido 1"
+          ondragover="permitirSoltar(event)"
+          ondrop="soltar(event, this)"
+          onclick="colocar(this)"
+          onkeydown="usarTeclado(event, this)">
+        </div>
+      </article>
+
+      <article>
+        <button id="sonido1" class="boton-sonido"
+          onclick="reproducir(1)">
+          ▶ Sonido 2
+        </button>
+
+        <div id="slot1" class="slot"
+          tabindex="0"
+          role="group"
+          aria-label="Respuesta para el sonido 2"
+          ondragover="permitirSoltar(event)"
+          ondrop="soltar(event, this)"
+          onclick="colocar(this)"
+          onkeydown="usarTeclado(event, this)">
+        </div>
+      </article>
+
+      <article>
+        <button id="sonido2" class="boton-sonido"
+          onclick="reproducir(2)">
+          ▶ Sonido 3
+        </button>
+
+        <div id="slot2" class="slot"
+          tabindex="0"
+          role="group"
+          aria-label="Respuesta para el sonido 3"
+          ondragover="permitirSoltar(event)"
+          ondrop="soltar(event, this)"
+          onclick="colocar(this)"
+          onkeydown="usarTeclado(event, this)">
+        </div>
+      </article>
+
+      <article>
+        <button id="sonido3" class="boton-sonido"
+          onclick="reproducir(3)">
+          ▶ Sonido 4
+        </button>
+
+        <div id="slot3" class="slot"
+          tabindex="0"
+          role="group"
+          aria-label="Respuesta para el sonido 4"
+          ondragover="permitirSoltar(event)"
+          ondrop="soltar(event, this)"
+          onclick="colocar(this)"
+          onkeydown="usarTeclado(event, this)">
+        </div>
+      </article>
+
+    </section>
+
+    <p class="instruccion">
+      Arrastrá las tarjetas. También podés tocar una tarjeta
+      y después un espacio.
+    </p>
+
+    <section id="tarjetas" class="tarjetas"
+      ondragover="permitirSoltar(event)"
+      ondrop="soltar(event, this)"
+      onclick="colocar(this)">
+
+      <button id="tarjeta0" class="tarjeta"
+        data-tipo="0"
+        draggable="true"
+        ondragstart="arrastrar(event)"
+        onclick="seleccionar(event, this)"
+        aria-pressed="false">
+        Tekiá
+      </button>
+
+      <button id="tarjeta1" class="tarjeta"
+        data-tipo="1"
+        draggable="true"
+        ondragstart="arrastrar(event)"
+        onclick="seleccionar(event, this)"
+        aria-pressed="false">
+        Shevarim
+      </button>
+
+      <button id="tarjeta2" class="tarjeta"
+        data-tipo="2"
+        draggable="true"
+        ondragstart="arrastrar(event)"
+        onclick="seleccionar(event, this)"
+        aria-pressed="false">
+        Teruá
+      </button>
+
+      <button id="tarjeta3" class="tarjeta"
+        data-tipo="3"
+        draggable="true"
+        ondragstart="arrastrar(event)"
+        onclick="seleccionar(event, this)"
+        aria-pressed="false">
+        Tekiá guedolá
+      </button>
+
+    </section>
+
+    <div class="acciones">
+      <button class="comprobar" onclick="comprobar()">
+        Comprobar
+      </button>
+
+      <button class="reiniciar" onclick="reiniciar()">
+        Volver a jugar
+      </button>
+    </div>
+
+    <p id="mensaje" role="status" aria-live="polite"></p>
+
+    <details>
+      <summary>Ver pistas sobre los sonidos</summary>
+
+      <ul>
+        <li>
+          <strong>Tekiá:</strong>
+          un sonido largo y continuo.
+        </li>
+
+        <li>
+          <strong>Shevarim:</strong>
+          tres sonidos de duración media.
+        </li>
+
+        <li>
+          <strong>Teruá:</strong>
+          una sucesión de al menos nueve sonidos muy cortos.
+        </li>
+
+        <li>
+          <strong>Tekiá guedolá:</strong>
+          una tekiá prolongada.
+        </li>
+      </ul>
+    </details>
+
+  </main>
+</body>
+
+</html>

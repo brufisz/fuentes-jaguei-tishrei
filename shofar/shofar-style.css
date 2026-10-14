@@ -1,0 +1,184 @@
+body {
+    margin: 0;
+    background-color: #fff8e9;
+    color: #342814;
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
+  
+  main {
+    max-width: 860px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+  
+  .fiesta {
+    color: #93601b;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 3px;
+  }
+  
+  h1 {
+    font-size: 36px;
+    margin: 12px 0;
+  }
+  
+  p {
+    line-height: 1.5;
+  }
+  
+  button {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .sonidos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 32px;
+  }
+  
+  .boton-sonido {
+    width: 100%;
+    padding: 16px 8px;
+    background-color: #75501f;
+    color: white;
+    border: 0;
+    border-radius: 10px;
+  }
+  
+  .boton-sonido:hover,
+  .reproduciendo {
+    background-color: #a96c1b;
+  }
+  
+  .slot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 95px;
+    margin-top: 12px;
+    padding: 8px;
+    border: 2px dashed #c4aa7b;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .slot:empty::before {
+    content: "Arrastrá acá";
+    color: #75664e;
+    font-size: 14px;
+  }
+  
+  .tarjetas {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    min-height: 55px;
+    padding: 12px;
+    border: 1px solid #e3d1ae;
+    border-radius: 10px;
+  }
+  
+  .tarjeta {
+    padding: 14px;
+    background-color: white;
+    color: #342814;
+    border: 2px solid #c4aa7b;
+    border-radius: 8px;
+    cursor: grab;
+  }
+  
+  .seleccionada {
+    background-color: #ffe3a8;
+    border-color: #95600c;
+  }
+  
+  .correcto {
+    background-color: #e6f5e4;
+    border: 2px solid #397c38;
+  }
+  
+  .incorrecto {
+    background-color: #fff0ed;
+    border: 2px solid #ba4940;
+  }
+  
+  .acciones {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  
+  .acciones button {
+    padding: 12px 20px;
+    border-radius: 8px;
+  }
+  
+  .comprobar {
+    background-color: #dca037;
+    color: #342814;
+    border: 2px solid #dca037;
+    font-weight: bold;
+  }
+  
+  .reiniciar {
+    background-color: transparent;
+    color: #342814;
+    border: 2px solid #c4aa7b;
+  }
+  
+  #mensaje {
+    min-height: 28px;
+    font-weight: bold;
+  }
+  
+  details {
+    margin-top: 16px;
+    padding: 16px;
+    background-color: #f2e6d0;
+    border-radius: 10px;
+    text-align: left;
+  }
+  
+  summary {
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  li {
+    margin: 10px 0;
+  }
+  
+  .instruccion {
+    color: #75664e;
+    font-size: 13px;
+  }
+  
+  button:focus-visible,
+  .slot:focus-visible,
+  summary:focus-visible {
+    outline: 3px solid #276a9a;
+    outline-offset: 3px;
+  }
+  
+  @media (max-width: 600px) {
+    main {
+      margin: 12px auto;
+      padding: 16px;
+    }
+  
+    h1 {
+      font-size: 28px;
+    }
+  
+    .sonidos {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
