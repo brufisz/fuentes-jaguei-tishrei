@@ -52,7 +52,22 @@ $("chk").onclick = function () {
     if (r < 2) { good = false; out.push("Al techo le faltan piezas válidas (hay " + r + ", hacen falta 2 o más).") }
     if (w < 2) { good = false; out.push("Faltan paredes (hay " + w + ", hacen falta 2 o más).") }
     var R = $("res"); R.className = good ? "win" : "lose"; R.style.display = "block";
-    R.innerHTML = good ? "<b>Sucá válida.</b> Techo vegetal, suelto, y se ven las estrellas.<div class=\"code\">¡Bien hecho! El dígito para abrir el candado de este juego es el <b>8</b>.</div>" : "<b>Perdiste la sucá.</b> Corregí esto:<ul><li>" + out.join("</li><li>") + "</li></ul>";
-    draw()
+    R.innerHTML = good ? "<b>Sucá válida.</b> Techo vegetal, suelto, y se ven las estrellas." : "<b>Perdiste la sucá.</b> Corregí esto:<ul><li>" + out.join("</li><li>") + "</li></ul>";
+    draw();
+    if (good) win()
 };
+function win() {
+    var p = document.createElement("div"); p.className = "pop";
+    p.innerHTML = '<div class="box"><h2>¡Bien hecho!</h2><p>El dígito para abrir el candado de este juego es el</p><div class="dig">8</div><button>Cerrar</button></div>';
+    var C = ["#c62828", "#f2b632", "#3f9a3a", "#2f6fb5", "#e86fb0", "#8a5cd6"];
+    for (var i = 0; i < 120; i++) {
+        var c = document.createElement("i"); c.className = "cf";
+        c.style.left = Math.random() * 100 + "vw"; c.style.background = C[i % C.length];
+        c.style.animationDuration = 2.5 + Math.random() * 2.5 + "s"; c.style.animationDelay = Math.random() * 1.5 + "s";
+        c.style.setProperty("--dx", (Math.random() * 160 - 80) + "px"); c.style.setProperty("--r", (Math.random() * 1440 - 720) + "deg");
+        p.appendChild(c)
+    }
+    p.onclick = function (e) { if (e.target == p || e.target.tagName == "BUTTON") p.remove() };
+    document.body.appendChild(p)
+}
 draw();

@@ -251,14 +251,76 @@ button.sec {
     border-color: var(--ok)
 }
 
-#res .code {
-    margin-top: 10px;
-    font-size: 1.15em
+.pop {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgba(20, 12, 4, .55);
+    overflow: hidden;
+    animation: popfade .25s ease-out
 }
 
-#res .code b {
-    font-size: 1.6em;
+.pop .box {
+    position: relative;
+    z-index: 1;
+    max-width: 360px;
+    width: 100%;
+    padding: 24px 22px;
+    text-align: center;
+    border-radius: 20px;
+    border: 3px solid var(--ok);
+    background: var(--card);
+    color: var(--fg);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, .35);
+    animation: popin .4s cubic-bezier(.2, 1.4, .4, 1)
+}
+
+.pop h2 {
+    margin: 0 0 8px
+}
+
+.pop p {
+    margin: 0
+}
+
+.pop .dig {
+    font-size: 4.5em;
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 6px 0 14px;
     color: var(--ok)
+}
+
+.pop .cf {
+    position: absolute;
+    top: -20px;
+    width: 9px;
+    height: 14px;
+    border-radius: 2px;
+    animation: cffall linear forwards
+}
+
+@keyframes cffall {
+    to {
+        transform: translate(var(--dx), 110vh) rotate(var(--r))
+    }
+}
+
+@keyframes popin {
+    from {
+        transform: scale(.6);
+        opacity: 0
+    }
+}
+
+@keyframes popfade {
+    from {
+        opacity: 0
+    }
 }
 
 #res.lose {
