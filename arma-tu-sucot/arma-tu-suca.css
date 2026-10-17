@@ -251,6 +251,16 @@ button.sec {
     border-color: var(--ok)
 }
 
+#res .code {
+    margin-top: 10px;
+    font-size: 1.15em
+}
+
+#res .code b {
+    font-size: 1.6em;
+    color: var(--ok)
+}
+
 #res.lose {
     border-color: var(--bad)
 }
