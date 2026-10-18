@@ -1,73 +1,591 @@
-function lv(n, f) { var s = ""; for (var i = 0; i < n; i++)s += f(i); return s }
-var ART = {
-    1: function () { return '<path d="M4 30 Q50 22 96 30" stroke="#2f6a2a" stroke-width="3" fill="none"/>' + lv(10, function (i) { var x = 8 + i * 9; return '<path d="M' + x + ' 28 Q' + (x + 2) + ' 16 ' + (x + 7) + ' 6 M' + x + ' 29 Q' + (x + 2) + ' 42 ' + (x + 7) + ' 54" stroke="#3f9a3a" stroke-width="2.6" fill="none" stroke-linecap="round"/>' }) },
-    2: function () { return lv(3, function (i) { var y = 4 + i * 19; return '<rect x="2" y="' + y + '" width="96" height="13" rx="6" fill="#cdb86b" stroke="#8a7a30"/><path d="M26 ' + y + 'v13M52 ' + y + 'v13M76 ' + y + 'v13" stroke="#8a7a30" stroke-width="2"/>' }) },
-    3: function () { return '<path d="M3 32 L97 27" stroke="#5a3a1a" stroke-width="3"/>' + lv(15, function (i) { var x = 7 + i * 6; return '<path d="M' + x + ' ' + (32 - i * .05 * 5) + ' l3 -17 M' + x + ' ' + (32 - i * .05 * 5) + ' l3 17" stroke="#1f5a2a" stroke-width="2.2"/>' }) },
-    4: function () { return '<rect x="0" y="4" width="100" height="52" fill="#9aa3ab"/>' + lv(13, function (i) { return '<path d="M' + (i * 8) + ' 4v52" stroke="#6f7880" stroke-width="2"/>' }) },
-    5: function () { return '<rect x="0" y="4" width="100" height="52" fill="#2f6fb5"/><path d="M0 4h40L10 56H0z" fill="#5a9be0" opacity=".5"/>' },
-    6: function () { return '<rect x="0" y="4" width="100" height="52" fill="#9fd0f2" opacity=".35" stroke="#bfe3fa" stroke-width="2"/><path d="M15 4L0 30M45 4L15 56M80 4L50 56" stroke="#fff" stroke-width="3" opacity=".6"/>' },
-    7: function () { return '<path d="M5 40Q50 -12 95 40Z" fill="#c62828"/><path d="M50 6L20 40M50 6V40M50 6L80 40" stroke="#7f1414" stroke-width="1.5"/><path d="M50 40V54q0 5 -6 5" stroke="#444" stroke-width="3" fill="none"/>' },
-    8: function () { return '<rect x="0" y="14" width="16" height="46" fill="#6b4423"/><path d="M4 60l-4 0M8 60l-3 6M13 60l3 6" stroke="#6b4423" stroke-width="2"/><path d="M16 30L97 24" stroke="#5a3a1a" stroke-width="3.5"/>' + lv(8, function (i) { var x = 24 + i * 10; return '<ellipse cx="' + x + '" cy="' + (21 + (i % 2 ? 9 : -9)) + '" rx="7" ry="4" fill="#3f9a3a"/>' }) },
-    9: function () { return lv(5, function (i) { return '<rect x="0" y="' + (1 + i * 11.6) + '" width="100" height="11" fill="' + (i % 2 ? '#9a6830' : '#ad7a3e') + '" stroke="#6e4520"/>' }) + '<ellipse cx="30" cy="12" rx="3" ry="1.5" fill="#6e4520"/><ellipse cx="70" cy="36" rx="3" ry="1.5" fill="#6e4520"/>' },
-    10: function () { return '<rect width="100" height="60" fill="#f4efe2"/><path d="M20 0Q26 30 18 60M50 0Q44 30 52 60M80 0Q86 30 78 60" stroke="#d6cdb5" stroke-width="3" fill="none"/>' },
-    11: function () { return '<rect width="100" height="60" fill="#6b7a3a"/><rect x="3" y="3" width="94" height="54" fill="none" stroke="#e8e2b8" stroke-dasharray="4 3"/>' + '<circle cx="8" cy="8" r="2.5" fill="#333"/><circle cx="92" cy="8" r="2.5" fill="#333"/><circle cx="8" cy="52" r="2.5" fill="#333"/><circle cx="92" cy="52" r="2.5" fill="#333"/>' },
-    12: function () { return '<rect width="100" height="60" fill="#c9a06a"/>' + lv(10, function (i) { return '<path d="M0 ' + (3 + i * 6) + 'h100" stroke="#b58a52" stroke-width="1.5"/>' }) + '<rect x="44" width="12" height="60" fill="#e8d9b0" opacity=".8"/>' }
+let materiales = [
+  {
+    id: 1,
+    nombre: "Ramas de palmera",
+    techo: true,
+    pared: false
+  },
+  {
+    id: 2,
+    nombre: "Cañas de bambú",
+    techo: true,
+    pared: false
+  },
+  {
+    id: 3,
+    nombre: "Ramas de pino cortadas",
+    techo: true,
+    pared: false
+  },
+  {
+    id: 4,
+    nombre: "Chapa de metal",
+    techo: false,
+    pared: true,
+    motivo: "La chapa de metal no es vegetal."
+  },
+  {
+    id: 5,
+    nombre: "Lona de plástico",
+    techo: false,
+    pared: true,
+    motivo: "El plástico no sirve como sjaj."
+  },
+  {
+    id: 6,
+    nombre: "Vidrio",
+    techo: false,
+    pared: true,
+    motivo: "El vidrio no es vegetal."
+  },
+  {
+    id: 7,
+    nombre: "Paraguas",
+    techo: false,
+    pared: false,
+    motivo: "El paraguas no sirve como sjaj."
+  },
+  {
+    id: 8,
+    nombre: "Rama unida al árbol",
+    techo: false,
+    pared: false,
+    motivo: "La rama todavía está unida al árbol: hay que cortarla."
+  },
+  {
+    id: 9,
+    nombre: "Panel de madera",
+    techo: false,
+    pared: true,
+    motivo: "Este panel es para las paredes. En el techo de esta maqueta usá ramas o cañas cortadas."
+  },
+  {
+    id: 10,
+    nombre: "Tela bien sujeta",
+    techo: false,
+    pared: true,
+    motivo: "La tela procesada no sirve como sjaj."
+  },
+  {
+    id: 11,
+    nombre: "Lona bien tensada",
+    techo: false,
+    pared: true,
+    motivo: "La lona no sirve como sjaj."
+  },
+  {
+    id: 12,
+    nombre: "Cartón firme",
+    techo: false,
+    pared: true,
+    motivo: "El cartón no sirve como sjaj."
+  }
+];
+
+let piezas = {
+  roof: [0, 0, 0, 0],
+  walls: [0, 0, 0]
 };
-var ITEMS = [
-    { id: 1, n: "Ramas de palmera", t: "roof", ok: 1 }, { id: 2, n: "Cañas de bambú", t: "roof", ok: 1 }, { id: 3, n: "Ramas de pino cortadas", t: "roof", ok: 1 },
-    { id: 4, n: "Chapa de metal", t: "roof", ok: 0, why: "No es vegetal." }, { id: 5, n: "Lona de plástico", t: "roof", ok: 0, why: "No es vegetal y tapa las estrellas." },
-    { id: 6, n: "Vidrio", t: "roof", ok: 0, why: "No es vegetal." }, { id: 7, n: "Paraguas grande", t: "roof", ok: 0, why: "No es vegetal y tapa las estrellas." },
-    { id: 8, n: "Rama unida al árbol", t: "roof", ok: 0, why: "El schach tiene que estar cortado, no unido a algo que crece del suelo." },
-    { id: 9, n: "Madera", t: "walls", ok: 1 }, { id: 10, n: "Sábana gruesa", t: "walls", ok: 1 }, { id: 11, n: "Lona", t: "walls", ok: 1 }, { id: 12, n: "Cartón firme", t: "walls", ok: 1 }];
-var S = { roof: [0, 0, 0, 0], walls: [0, 0, 0] }, M = {}, sel = 0, drag = 0;
-var $ = function (i) { return document.getElementById(i) };
-function find(id) { return ITEMS.filter(function (i) { return i.id == id })[0] }
-function svg(id) { return '<svg viewBox="0 0 100 60" preserveAspectRatio="none">' + ART[id]() + '</svg>' }
-function stars() { var s = '<svg class="st" viewBox="0 0 300 200" preserveAspectRatio="none">'; for (var i = 0; i < 45; i++) { s += '<circle cx="' + ((i * 97) % 300) + '" cy="' + ((i * 53) % 150) + '" r="' + (0.8 + (i % 3) * .5) + '" fill="#fff" opacity="' + (0.5 + (i % 4) * .15) + '"/>' } return s + '</svg>' }
-function draw() {
-    $("pal").innerHTML = ITEMS.map(function (it) { return '<div class="tile' + (sel == it.id ? ' sel' : '') + '" draggable="true" data-id="' + it.id + '">' + svg(it.id) + it.n + '</div>' }).join("");
-    var h = stars();
-    ["roof", "walls"].forEach(function (z) { h += '<div class="row ' + z + '">' + S[z].map(function (id, i) { var m = M[z + i]; return '<div class="slot' + (id ? ' f' : '') + (m === 1 ? ' ok' : m === 0 ? ' bad' : '') + '" data-z="' + z + '" data-i="' + i + '">' + (id ? svg(id) : (z == "roof" ? "Techo" : "Pared")) + '</div>' }).join("") + '</div>' });
-    $("scene").innerHTML = h
-}
-function put(z, i, id) { S[z][i] = id; M = {}; sel = 0; drag = 0; $("res").style.display = "none"; draw() }
-$("pal").onclick = function (e) { var t = e.target.closest(".tile"); if (!t) return; var id = +t.dataset.id; sel = sel == id ? 0 : id; draw() };
-$("pal").ondragstart = function (e) { var t = e.target.closest(".tile"); if (t) { drag = +t.dataset.id; e.dataTransfer.setData("text/plain", drag) } };
-$("scene").onclick = function (e) { var s = e.target.closest(".slot"); if (!s) return; var z = s.dataset.z, i = +s.dataset.i; if (sel) put(z, i, sel); else if (S[z][i]) put(z, i, 0) };
-$("scene").ondragover = function (e) { e.preventDefault() };
-$("scene").ondrop = function (e) { e.preventDefault(); var s = e.target.closest(".slot"); if (s && drag) put(s.dataset.z, +s.dataset.i, drag) };
-$("rst").onclick = function () { S = { roof: [0, 0, 0, 0], walls: [0, 0, 0] }; M = {}; sel = 0; $("res").style.display = "none"; draw() };
-$("chk").onclick = function () {
-    var out = [], good = true, r = 0, w = 0; M = {};
-    S.roof.forEach(function (id, i) {
-        if (!id) return; var it = find(id);
-        if (it.t != "roof") { M["roof" + i] = 0; good = false; out.push(it.n + " es material de pared, no de techo.") }
-        else if (!it.ok) { M["roof" + i] = 0; good = false; out.push(it.n + ": " + it.why) }
-        else { M["roof" + i] = 1; r++ }
-    });
-    S.walls.forEach(function (id, i) {
-        if (!id) return; var it = find(id);
-        if (it.t != "walls") { M["walls" + i] = 0; good = false; out.push(it.n + " no sirve como pared.") } else { M["walls" + i] = 1; w++ }
-    });
-    if (r < 2) { good = false; out.push("Al techo le faltan piezas válidas (hay " + r + ", hacen falta 2 o más).") }
-    if (w < 2) { good = false; out.push("Faltan paredes (hay " + w + ", hacen falta 2 o más).") }
-    var R = $("res"); R.className = good ? "win" : "lose"; R.style.display = "block";
-    R.innerHTML = good ? "<b>Sucá válida.</b> Techo vegetal, suelto, y se ven las estrellas." : "<b>Perdiste la sucá.</b> Corregí esto:<ul><li>" + out.join("</li><li>") + "</li></ul>";
-    draw();
-    if (good) win()
+
+let marcas = {
+  roof: [],
+  walls: []
 };
-function win() {
-    var p = document.createElement("div"); p.className = "pop";
-    p.innerHTML = '<div class="box"><h2>¡Bien hecho!</h2><p>El dígito para abrir el candado de este juego es el</p><div class="dig">8</div><button>Cerrar</button></div>';
-    var C = ["#c62828", "#f2b632", "#3f9a3a", "#2f6fb5", "#e86fb0", "#8a5cd6"];
-    for (var i = 0; i < 120; i++) {
-        var c = document.createElement("i"); c.className = "cf";
-        c.style.left = Math.random() * 100 + "vw"; c.style.background = C[i % C.length];
-        c.style.animationDuration = 2.5 + Math.random() * 2.5 + "s"; c.style.animationDelay = Math.random() * 1.5 + "s";
-        c.style.setProperty("--dx", (Math.random() * 160 - 80) + "px"); c.style.setProperty("--r", (Math.random() * 1440 - 720) + "deg");
-        p.appendChild(c)
+
+let seleccionado = 0;
+
+let pal = document.getElementById("pal");
+let escena = document.getElementById("scene");
+let resultado = document.getElementById("res");
+let premio = document.getElementById("premio");
+
+function buscarMaterial(id) {
+  for (let i = 0; i < materiales.length; i++) {
+    if (materiales[i].id === id) {
+      return materiales[i];
     }
-    p.onclick = function (e) { if (e.target == p || e.target.tagName == "BUTTON") p.remove() };
-    document.body.appendChild(p)
+  }
 }
-draw();
+
+function imagen(id) {
+  let dibujo = "";
+
+  if (id === 1) {
+    dibujo =
+      '<path d="M10 78 Q60 40 112 8" ' +
+      'stroke="#6d6b37" stroke-width="4" fill="none"/>';
+
+    for (let i = 0; i < 11; i++) {
+      let x = 18 + i * 8;
+      let y = 72 - i * 5;
+
+      dibujo +=
+        '<path d="M' + x + ' ' + y +
+        ' Q' + (x - 18) + ' ' + (y - 22) +
+        ' ' + (x - 7) + ' ' + (y - 40) +
+        ' Q' + (x + 5) + ' ' + (y - 15) +
+        ' ' + x + ' ' + y + '" fill="#697d42"/>';
+
+      dibujo +=
+        '<path d="M' + x + ' ' + y +
+        ' Q' + (x + 18) + ' ' + (y + 9) +
+        ' ' + (x + 28) + ' ' + (y - 2) +
+        ' Q' + (x + 12) + ' ' + (y - 9) +
+        ' ' + x + ' ' + y + '" fill="#8c9b51"/>';
+    }
+  } else if (id === 2) {
+    for (let i = 0; i < 8; i++) {
+      let x = i * 16 - 3;
+
+      dibujo +=
+        '<rect x="' + x + '" y="0" width="13" height="90" ' +
+        'rx="5" fill="#b6a56a" stroke="#7d7950"/>';
+
+      dibujo +=
+        '<path d="M' + (x + 3) + ' 0v90" ' +
+        'stroke="#dfd39a" stroke-width="3"/>';
+
+      dibujo +=
+        '<path d="M' + x + ' 23h13 M' + x + ' 59h13" ' +
+        'stroke="#777145" stroke-width="3"/>';
+    }
+  } else if (id === 3) {
+    for (let j = 0; j < 3; j++) {
+      let y = 20 + j * 27;
+
+      dibujo +=
+        '<path d="M0 ' + (y + 13) +
+        ' L120 ' + (y - 12) +
+        '" stroke="#705236" stroke-width="3"/>';
+
+      for (let i = 0; i < 15; i++) {
+        let x = i * 9;
+        let yy = y + 13 - i * 1.9;
+
+        dibujo +=
+          '<path d="M' + x + ' ' + yy +
+          ' l8 -17 M' + x + ' ' + yy +
+          ' l13 10 M' + x + ' ' + yy +
+          ' l-3 -17" stroke="#526f44" stroke-width="2"/>';
+      }
+    }
+  } else if (id === 7) {
+    dibujo =
+      '<path d="M9 49 Q60 -12 111 49 ' +
+      'Q98 41 86 49 Q73 41 60 49 ' +
+      'Q46 41 34 49 Q21 41 9 49" fill="#a66549"/>';
+
+    dibujo +=
+      '<path d="M60 7 Q38 25 34 49 M60 7v42 ' +
+      'M60 7 Q83 25 86 49" stroke="#744c38" ' +
+      'stroke-width="1.5" fill="none"/>';
+
+    dibujo +=
+      '<path d="M60 47v27q0 13-13 7" ' +
+      'stroke="#4b4e43" stroke-width="4" fill="none"/>';
+  } else if (id === 8) {
+    dibujo =
+      '<path d="M10 90 L14 0 L29 0 L31 90Z" fill="#896442"/>';
+
+    dibujo +=
+      '<path d="M23 47 Q70 32 120 22" ' +
+      'stroke="#80603f" stroke-width="7" fill="none"/>';
+
+    for (let i = 0; i < 7; i++) {
+      let x = 40 + i * 12;
+      let y = 40 - i * 2;
+
+      dibujo +=
+        '<path d="M' + x + ' ' + y +
+        ' q-10 -22 5 -26 q13 15-5 26 M' +
+        x + ' ' + y +
+        ' q18 -1 19 16 q-18 5-19-16" fill="#607b49"/>';
+    }
+  }
+
+  if (dibujo !== "") {
+    return (
+      '<span class="muestra material-' + id + '">' +
+        '<svg viewBox="0 0 120 90" ' +
+          'preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
+          dibujo +
+        '</svg>' +
+      '</span>'
+    );
+  }
+
+  return (
+    '<span class="muestra material-' + id + '">' +
+      '<span class="textura textura-' + id + '"></span>' +
+    '</span>'
+  );
+}
+
+function dibujar() {
+  pal.innerHTML = "";
+
+  for (let i = 0; i < materiales.length; i++) {
+    let material = materiales[i];
+    let clase = "tile";
+    let presionado = "false";
+
+    if (seleccionado === material.id) {
+      clase += " sel";
+      presionado = "true";
+    }
+
+    pal.innerHTML +=
+      '<button id="material-' + material.id + '" ' +
+        'class="' + clase + '" type="button" draggable="true" ' +
+        'data-id="' + material.id + '" ' +
+        'aria-pressed="' + presionado + '">' +
+        imagen(material.id) +
+        '<span class="tile-nombre">' +
+          material.nombre +
+        '</span>' +
+      '</button>';
+  }
+
+  let zonas = ["roof", "walls"];
+  let cantidades = [0, 0];
+
+  for (let z = 0; z < zonas.length; z++) {
+    let zona = zonas[z];
+    let contenedor = document.getElementById(zona);
+
+    contenedor.innerHTML = "";
+
+    for (let i = 0; i < piezas[zona].length; i++) {
+      let id = piezas[zona][i];
+      let clase = "slot";
+      let etiqueta = "Techo";
+
+      if (zona === "walls") {
+        etiqueta = "Pared";
+      }
+
+      let contenido = etiqueta;
+      let descripcion = etiqueta + " " + (i + 1) + ": vacío";
+
+      if (id !== 0) {
+        clase += " f";
+        contenido = imagen(id);
+
+        descripcion =
+          etiqueta + " " + (i + 1) + ": " +
+          buscarMaterial(id).nombre;
+
+        cantidades[z]++;
+      }
+
+      if (marcas[zona][i] === true) {
+        clase += " ok";
+      }
+
+      if (marcas[zona][i] === false) {
+        clase += " bad";
+      }
+
+      contenedor.innerHTML +=
+        '<button id="' + zona + '-' + i + '" ' +
+          'class="' + clase + '" type="button" ' +
+          'data-zona="' + zona + '" ' +
+          'data-posicion="' + i + '" ' +
+          'aria-label="' + descripcion + '">' +
+          contenido +
+        '</button>';
+    }
+  }
+
+  document.getElementById("cuenta-techo").textContent =
+    cantidades[0] + "/4";
+
+  document.getElementById("cuenta-paredes").textContent =
+    cantidades[1] + "/3";
+
+  let texto = "Ningún material seleccionado.";
+
+  if (seleccionado !== 0) {
+    texto =
+      "Seleccionado: " + buscarMaterial(seleccionado).nombre + ".";
+  }
+
+  document.getElementById("seleccion").textContent = texto;
+}
+
+function poner(zona, posicion, id) {
+  if (zona !== "roof" && zona !== "walls") {
+    return;
+  }
+
+  if (posicion < 0 || posicion >= piezas[zona].length) {
+    return;
+  }
+
+  if (id !== 0 && !buscarMaterial(id)) {
+    return;
+  }
+
+  piezas[zona][posicion] = id;
+
+  marcas = {
+    roof: [],
+    walls: []
+  };
+
+  resultado.hidden = true;
+
+  dibujar();
+
+  document.getElementById(zona + "-" + posicion).focus({
+    preventScroll: true
+  });
+}
+
+pal.onclick = function (evento) {
+  let tarjeta = evento.target.closest(".tile");
+
+  if (!tarjeta) {
+    return;
+  }
+
+  let id = Number(tarjeta.dataset.id);
+
+  if (seleccionado === id) {
+    seleccionado = 0;
+  } else {
+    seleccionado = id;
+  }
+
+  dibujar();
+
+  document.getElementById("material-" + id).focus({
+    preventScroll: true
+  });
+};
+
+pal.ondragstart = function (evento) {
+  let tarjeta = evento.target.closest(".tile");
+
+  if (!tarjeta) {
+    return;
+  }
+
+  let id = Number(tarjeta.dataset.id);
+
+  evento.dataTransfer.setData("text/plain", String(id));
+  evento.dataTransfer.effectAllowed = "copy";
+};
+
+pal.ondragend = function () {
+  limpiarDestino();
+};
+
+escena.onclick = function (evento) {
+  let sector = evento.target.closest(".slot");
+
+  if (!sector) {
+    return;
+  }
+
+  let zona = sector.dataset.zona;
+  let posicion = Number(sector.dataset.posicion);
+  let actual = piezas[zona][posicion];
+
+  if (
+    actual !== 0 &&
+    (seleccionado === 0 || seleccionado === actual)
+  ) {
+    poner(zona, posicion, 0);
+  } else if (seleccionado !== 0) {
+    poner(zona, posicion, seleccionado);
+  }
+};
+
+function limpiarDestino() {
+  let sectores = escena.getElementsByClassName("slot");
+
+  for (let i = 0; i < sectores.length; i++) {
+    sectores[i].classList.remove("destino");
+  }
+}
+
+escena.ondragover = function (evento) {
+  let sector = evento.target.closest(".slot");
+
+  if (!sector) {
+    return;
+  }
+
+  evento.preventDefault();
+
+  limpiarDestino();
+  sector.classList.add("destino");
+};
+
+escena.ondragleave = function (evento) {
+  if (!escena.contains(evento.relatedTarget)) {
+    limpiarDestino();
+  }
+};
+
+escena.ondrop = function (evento) {
+  evento.preventDefault();
+
+  limpiarDestino();
+
+  let sector = evento.target.closest(".slot");
+  let id = Number(evento.dataTransfer.getData("text/plain"));
+
+  if (sector && buscarMaterial(id)) {
+    poner(
+      sector.dataset.zona,
+      Number(sector.dataset.posicion),
+      id
+    );
+  }
+};
+
+document.getElementById("rst").onclick = function () {
+  piezas = {
+    roof: [0, 0, 0, 0],
+    walls: [0, 0, 0]
+  };
+
+  marcas = {
+    roof: [],
+    walls: []
+  };
+
+  seleccionado = 0;
+  resultado.hidden = true;
+
+  dibujar();
+};
+
+document.getElementById("chk").onclick = function () {
+  let errores = [];
+  let techos = 0;
+  let paredes = 0;
+
+  marcas = {
+    roof: [],
+    walls: []
+  };
+
+  for (let i = 0; i < piezas.roof.length; i++) {
+    let material = buscarMaterial(piezas.roof[i]);
+
+    if (!material) {
+      continue;
+    }
+
+    marcas.roof[i] = material.techo;
+
+    if (material.techo) {
+      techos++;
+    } else if (errores.indexOf(material.motivo) === -1) {
+      errores.push(material.motivo);
+    }
+  }
+
+  for (let i = 0; i < piezas.walls.length; i++) {
+    let material = buscarMaterial(piezas.walls[i]);
+
+    if (!material) {
+      continue;
+    }
+
+    marcas.walls[i] = material.pared;
+
+    if (material.pared) {
+      paredes++;
+    } else {
+      let texto =
+        material.nombre +
+        ": para esta pared elegí un panel firme o una tela bien sujeta.";
+
+      if (errores.indexOf(texto) === -1) {
+        errores.push(texto);
+      }
+    }
+  }
+
+  if (techos < 4) {
+    errores.push(
+      "Completá los cuatro sectores del techo con ramas o cañas cortadas."
+    );
+  }
+
+  if (paredes < 3) {
+    errores.push(
+      "Completá las tres paredes con materiales firmes."
+    );
+  }
+
+  resultado.className = "resultado";
+  resultado.hidden = false;
+
+  if (errores.length === 0) {
+    resultado.classList.add("win");
+
+    resultado.innerHTML =
+      "<strong>La sucá está terminada.</strong>";
+
+    dibujar();
+    mostrarPremio();
+  } else {
+    let lista = "<strong>Revisá esto:</strong><ul>";
+
+    for (let i = 0; i < errores.length; i++) {
+      lista += "<li>" + errores[i] + "</li>";
+    }
+
+    resultado.innerHTML = lista + "</ul>";
+
+    dibujar();
+  }
+};
+
+function mostrarPremio() {
+  let confeti = document.getElementById("confeti");
+  let colores = [
+    "#b99055",
+    "#83956c",
+    "#e0c891",
+    "#d2a090"
+  ];
+
+  confeti.innerHTML = "";
+
+  for (let i = 0; i < 42; i++) {
+    let papel = document.createElement("i");
+
+    papel.style.left = Math.random() * 100 + "%";
+    papel.style.background = colores[i % colores.length];
+    papel.style.animationDelay = Math.random() + "s";
+
+    papel.style.setProperty(
+      "--desvio",
+      Math.random() * 160 - 80 + "px"
+    );
+
+    confeti.appendChild(papel);
+  }
+
+  if (!premio.open) {
+    premio.showModal();
+  }
+}
+
+document.getElementById("cerrar").onclick = function () {
+  premio.close();
+};
+
+premio.onclick = function (evento) {
+  if (evento.target === premio) {
+    premio.close();
+  }
+};
+
+dibujar();

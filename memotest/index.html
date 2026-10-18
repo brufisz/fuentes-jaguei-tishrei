@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#923d3d">
+
+  <title>Memotest de Rosh Hashaná</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Suez+One&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="style.css">
+  <script src="main.js" defer></script>
+</head>
+
+<body>
+  <header class="encabezado">
+    <p class="hebreo" lang="he" dir="rtl">
+      שנה טובה ומתוקה
+    </p>
+
+    <h1>Memotest de <span>Rosh Hashaná</span></h1>
+    <p class="introduccion">20 cartas · 10 parejas</p>
+  </header>
+
+  <main class="juego">
+    <section class="zona-tablero" aria-labelledby="titulo-tablero">
+      <div class="cabecera-tablero">
+        <div>
+          <h2 id="titulo-tablero">Encontrá las parejas</h2>
+        </div>
+      </div>
+
+      <div class="marcadores">
+        <p>
+          Parejas
+          <strong id="contadorParejas">0 / 10</strong>
+        </p>
+
+        <p>
+          Intentos
+          <strong id="contadorIntentos">0</strong>
+        </p>
+      </div>
+
+      <p id="mensaje" role="status" aria-live="polite"></p>
+
+      <div class="mesa">
+        <div id="tablero" aria-label="Cartas del memotest"></div>
+
+        <div id="victoria" hidden>
+  <h3>¡Shaná tová!</h3>
+  <p>Encontraste las 10 parejas.</p>
+  <p>Tu número para el candado es:</p>
+  <strong class="numero-premio">5</strong>
+</div>
+      </div>
+
+      <div class="pie-tablero">
+        <button
+          id="reiniciar"
+          type="button"
+          onclick="reiniciarJuego()"
+        >
+          <span aria-hidden="true">↻</span>
+          Volver a jugar
+        </button>
+      </div>
+    </section>
+
+    <aside aria-labelledby="titulo-coleccion">
+      <h2 id="titulo-coleccion">Parejas encontradas</h2>
+
+      <div id="sinEncontrados">
+        <span aria-hidden="true">✧</span>
+        <p>Todavía no encontraste parejas.</p>
+      </div>
+
+      <section id="detalle" hidden aria-labelledby="nombreSimbolo">
+        <h3 id="nombreSimbolo"></h3>
+        <p id="infoSimbolo"></p>
+
+        <a
+          id="fuenteSimbolo"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Leer más
+        </a>
+      </section>
+
+      <div id="encontrados" aria-label="Parejas descubiertas"></div>
+    </aside>
+  </main>
+</body>
+</html>

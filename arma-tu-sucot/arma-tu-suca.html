@@ -1,29 +1,139 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>Armá tu sucá</title>
-    <link rel="stylesheet" href="arma-tu-suca.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#344b3c">
+
+  <title>Armá tu sucá</title>
+
+  <link rel="stylesheet" href="arma-tu-suca.css">
+  <script src="arma-tu-suca.js" defer></script>
 </head>
 
 <body>
-    <main>
-        <h1>Armá tu sucá</h1>
-        <p>Arrastrá cada material a un lugar de la sucá (o tocá el material y después el lugar). Tocá una pieza puesta
-            para sacarla.</p>
-            <div class="rules"><b>Reglas:</b> el techo tiene que ser <b>vegetal</b>, estar <b>suelto</b> (no unido al suelo
-            ni a algo que crece) y <b>dejar ver las estrellas</b>. Hacen falta 2 piezas de techo y 2 de pared como
-            mínimo.</div>
-        <div class="lbl">Materiales</div>
-        <div class="pal" id="pal"></div>
-        <div class="lbl">Tu sucá</div>
-        <div class="scene" id="scene"></div>
-        <button id="chk">Revisar mi sucá</button><button class="sec" id="rst">Empezar de nuevo</button>
-        <div id="res"></div>
-    </main>
-    
-    <script src="arma-tu-suca.js"></script>
+  <main>
+    <header class="encabezado">
+      <p class="fiesta">
+        SUCOT
+        <span lang="he" dir="rtl">סוכות</span>
+      </p>
+
+      <h1>Armá tu <em>sucá</em></h1>
+
+      <p>
+        Elegí un material y tocá dónde colocarlo.
+        También podés arrastrarlo.
+      </p>
+    </header>
+
+    <details class="reglas">
+      <summary>Reglas de la sucá</summary>
+
+      <div class="contenido-reglas">
+        <p>
+          El techo, llamado <strong>sjaj</strong>, se hace con ramas
+          o cañas cortadas. Debe dar más sombra que sol, con espacios
+          pequeños entre las ramas. Las paredes tienen que estar firmes.
+        </p>
+
+        <p>
+          En esta maqueta, completá los cuatro sectores del techo
+          y las tres paredes. Tocá una pieza puesta para quitarla;
+          si tenés otro material seleccionado, la reemplazás.
+        </p>
+
+        <a
+          href="https://es.chabad.org/library/article_cdo/aid/420823/jewish/How-to-Build-a-Sukkah.htm"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Leer más
+        </a>
+      </div>
+    </details>
+
+    <div class="juego">
+      <section class="materiales" aria-labelledby="titulo-materiales">
+        <div class="cabecera-panel">
+          <h2 id="titulo-materiales">Materiales</h2>
+          <span class="cantidad">12 opciones</span>
+        </div>
+
+        <div id="pal" class="pal"></div>
+
+        <p id="seleccion" class="seleccion" aria-live="polite">
+          Ningún material seleccionado.
+        </p>
+      </section>
+
+      <section class="construccion" aria-labelledby="titulo-suca">
+        <div class="cabecera-panel">
+          <h2 id="titulo-suca">Tu sucá</h2>
+
+          <div class="contadores" aria-live="polite">
+            <span>
+              Techo
+              <strong id="cuenta-techo">0/4</strong>
+            </span>
+
+            <span>
+              Paredes
+              <strong id="cuenta-paredes">0/3</strong>
+            </span>
+          </div>
+        </div>
+
+        <div id="scene" class="scene" aria-label="Maqueta de la sucá">
+          <div class="luna" aria-hidden="true"></div>
+
+          <div class="estructura">
+            <div class="etiqueta-zona">TECHO</div>
+            <div id="roof" class="roof"></div>
+            <div class="viga" aria-hidden="true"></div>
+            <div id="walls" class="walls"></div>
+            <div class="piso" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <div class="acciones">
+          <button id="chk" class="principal" type="button">
+            Revisar mi sucá
+            <span aria-hidden="true">→</span>
+          </button>
+
+          <button id="rst" class="secundario" type="button">
+            Empezar de nuevo
+          </button>
+        </div>
+
+        <div
+          id="res"
+          class="resultado"
+          role="status"
+          aria-live="polite"
+          hidden
+        ></div>
+      </section>
+    </div>
+  </main>
+
+  <dialog id="premio" class="premio" aria-labelledby="titulo-premio">
+    <div class="contenido-premio">
+      <p class="fiesta">SUCÁ TERMINADA</p>
+
+      <h2 id="titulo-premio">Código del candado</h2>
+
+      <p>El número de este juego es:</p>
+
+      <div class="digito">8</div>
+
+      <button id="cerrar" class="principal" type="button">
+        Cerrar
+      </button>
+    </div>
+
+    <div id="confeti" class="confeti" aria-hidden="true"></div>
+  </dialog>
 </body>
 </html>

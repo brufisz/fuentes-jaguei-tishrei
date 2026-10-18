@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#183b61">
+
+  <title>Los sonidos del shofar</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Suez+One&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="shofar-style.css">
+  <script src="shofar-main.js" defer></script>
+</head>
+
+<body>
+  <div class="franjas-talit franjas-superiores" aria-hidden="true"></div>
+  <div class="franjas-talit franjas-inferiores" aria-hidden="true"></div>
+  <div class="flecos-talit" aria-hidden="true"></div>
+
+  <main>
+    <header class="encabezado">
+      <p class="fiesta">
+        IOM KIPUR
+        <span lang="he" dir="rtl">יום כיפור</span>
+      </p>
+
+      <h1>Los sonidos del <span>shofar</span></h1>
+
+      <p class="introduccion">
+        Escuchá cada audio y elegí su nombre.
+      </p>
+    </header>
+
+    <section class="sonidos" aria-label="Escuchá y respondé">
+      <article class="sonido">
+        <p class="numero">SONIDO <span>01</span></p>
+
+        <button
+          id="sonido0"
+          class="boton-sonido"
+          type="button"
+          onclick="reproducir(0)"
+          aria-pressed="false"
+          aria-label="Escuchar sonido 1"
+        >
+          <span class="instrumento" aria-hidden="true">
+            <span class="halo"></span>
+            <span class="imagen-shofar"></span>
+
+            <span class="notas">
+              <span class="nota">♪</span>
+              <span class="nota">♫</span>
+              <span class="nota">♩</span>
+              <span class="nota">♪</span>
+            </span>
+          </span>
+
+          <span class="etiqueta-sonido">
+            <span class="icono-sonido" aria-hidden="true">▶</span>
+            <span class="texto-sonido">Escuchar</span>
+          </span>
+        </button>
+
+        <div
+          id="slot0"
+          class="slot"
+          tabindex="0"
+          role="group"
+          aria-label="Respuesta para el sonido 1"
+          ondragover="permitirSoltar(event)"
+          ondrop="soltar(event, this)"
+          onclick="colocar(this)"
+          onkeydown="usarTeclado(event, this)"
+        ></div>
+      </article>
+
+      <article class="sonido">
+        <p class="numero">SONIDO <span>02</span></p>
+
+        <button
+          id="sonido1"
+          class="boton-sonido"
+          type="button"
+          onclick="reproducir(1)"
+          aria-pressed="false"
+          aria-label="Escuchar sonido 2"
+        >
+          <span class="instrumento" aria-hidden="true">
+            <span class="halo"></span>
+            <span class="imagen-shofar"></span>
+
+            <span class="notas">
+              <span class="nota">♪</span>
+              <span class="nota">♫</span>
+              <span class="nota">♩</span>
+              <span class="nota">♪</span>
+            </span>
+          </span>
+
+          <span class="etiqueta-sonido">
+            <span class="icono-sonido" aria-hidden="true">▶</span>
+            <span class="texto-sonido">Escuchar</span>
+          </span>
+        </button>
+
+        <div
+          id="slot1"
+          class="slot"
+          tabindex="0"
+          role="group"
+          aria-label="Respuesta para el sonido 2"
+          ondragover="permitirSoltar(event)"
+          ondrop="soltar(event, this)"
+          onclick="colocar(this)"
+          onkeydown="usarTeclado(event, this)"
+        ></div>
+      </article>
+
+      <article class="sonido">
+        <p class="numero">SONIDO <span>03</span></p>
+
+        <button
+          id="sonido2"
+          class="boton-sonido"
+          type="button"
+          onclick="reproducir(2)"
+          aria-pressed="false"
+          aria-label="Escuchar sonido 3"
+        >
+          <span class="instrumento" aria-hidden="true">
+            <span class="halo"></span>
+            <span class="imagen-shofar"></span>
+
+            <span class="notas">
+              <span class="nota">♪</span>
+              <span class="nota">♫</span>
+              <span class="nota">♩</span>
+              <span class="nota">♪</span>
+            </span>
+          </span>
+
+          <span class="etiqueta-sonido">
+            <span class="icono-sonido" aria-hidden="true">▶</span>
+            <span class="texto-sonido">Escuchar</span>
+          </span>
+        </button>
+
+        <div
+          id="slot2"
+          class="slot"
+          tabindex="0"
+          role="group"
+          aria-label="Respuesta para el sonido 3"
+          ondragover="permitirSoltar(event)"
+          ondrop="soltar(event, this)"
+          onclick="colocar(this)"
+          onkeydown="usarTeclado(event, this)"
+        ></div>
+      </article>
+
+      <article class="sonido">
+        <p class="numero">SONIDO <span>04</span></p>
+
+        <button
+          id="sonido3"
+          class="boton-sonido"
+          type="button"
+          onclick="reproducir(3)"
+          aria-pressed="false"
+          aria-label="Escuchar sonido 4"
+        >
+          <span class="instrumento" aria-hidden="true">
+            <span class="halo"></span>
+            <span class="imagen-shofar"></span>
+
+            <span class="notas">
+              <span class="nota">♪</span>
+              <span class="nota">♫</span>
+              <span class="nota">♩</span>
+              <span class="nota">♪</span>
+            </span>
+          </span>
+
+          <span class="etiqueta-sonido">
+            <span class="icono-sonido" aria-hidden="true">▶</span>
+            <span class="texto-sonido">Escuchar</span>
+          </span>
+        </button>
+
+        <div
+          id="slot3"
+          class="slot"
+          tabindex="0"
+          role="group"
+          aria-label="Respuesta para el sonido 4"
+          ondragover="permitirSoltar(event)"
+          ondrop="soltar(event, this)"
+          onclick="colocar(this)"
+          onkeydown="usarTeclado(event, this)"
+        ></div>
+      </article>
+    </section>
+
+    <section class="respuestas" aria-labelledby="titulo-tarjetas">
+      <h2 id="titulo-tarjetas">Nombres de los sonidos</h2>
+
+      <div
+        id="tarjetas"
+        class="tarjetas"
+        tabindex="0"
+        role="group"
+        aria-label="Tarjetas disponibles"
+        ondragover="permitirSoltar(event)"
+        ondrop="soltar(event, this)"
+        onclick="colocar(this)"
+        onkeydown="usarTeclado(event, this)"
+      >
+        <button
+          id="tarjeta0"
+          class="tarjeta"
+          type="button"
+          data-tipo="0"
+          draggable="true"
+          ondragstart="arrastrar(event)"
+          onclick="seleccionar(event, this)"
+          aria-pressed="false"
+        >
+          Tekiá
+        </button>
+
+        <button
+          id="tarjeta1"
+          class="tarjeta"
+          type="button"
+          data-tipo="1"
+          draggable="true"
+          ondragstart="arrastrar(event)"
+          onclick="seleccionar(event, this)"
+          aria-pressed="false"
+        >
+          Shevarim
+        </button>
+
+        <button
+          id="tarjeta2"
+          class="tarjeta"
+          type="button"
+          data-tipo="2"
+          draggable="true"
+          ondragstart="arrastrar(event)"
+          onclick="seleccionar(event, this)"
+          aria-pressed="false"
+        >
+          Teruá
+        </button>
+
+        <button
+          id="tarjeta3"
+          class="tarjeta"
+          type="button"
+          data-tipo="3"
+          draggable="true"
+          ondragstart="arrastrar(event)"
+          onclick="seleccionar(event, this)"
+          aria-pressed="false"
+        >
+          Tekiá guedolá
+        </button>
+      </div>
+    </section>
+
+    <div class="acciones">
+      <button class="comprobar" type="button" onclick="comprobar()">
+        Comprobar
+      </button>
+
+      <button class="reiniciar" type="button" onclick="reiniciar()">
+        <span aria-hidden="true">↻</span>
+        Volver a jugar
+      </button>
+    </div>
+
+    <p id="mensaje" role="status" aria-live="polite"></p>
+
+    <section
+      id="premio-shofar"
+      class="premio-candado"
+      role="status"
+      aria-live="polite"
+      hidden
+    >
+      <p>Tu número para el candado es:</p>
+      <strong class="numero-premio">7</strong>
+    </section>
+
+    <details>
+      <summary>Pistas</summary>
+
+      <ul class="pistas">
+        <li>
+          <strong>Tekiá</strong>
+          <span>Un sonido largo y continuo.</span>
+        </li>
+
+        <li>
+          <strong>Shevarim</strong>
+          <span>Tres sonidos de duración media.</span>
+        </li>
+
+        <li>
+          <strong>Teruá</strong>
+          <span>Al menos nueve sonidos muy cortos.</span>
+        </li>
+
+        <li>
+          <strong>Tekiá guedolá</strong>
+          <span>Una tekiá prolongada.</span>
+        </li>
+      </ul>
+    </details>
+  </main>
+</body>
+</html>

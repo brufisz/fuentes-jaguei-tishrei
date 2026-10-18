@@ -1,248 +1,776 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desafío de Código</title>
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Fredoka', 'Inter', sans-serif;
-            background-color: #f4d9b0; /* Window background color */
-        }
-        /* Hide number spinners */
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        input[type=number] {
-            -moz-appearance: textfield;
-        }
-        #confetti-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 50;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>El candado de Tishrei</title>
+
+  <style>
+    :root {
+      color-scheme: light;
+      --azul: #183b60;
+      --azul-oscuro: #102a46;
+      --dorado: #b68b42;
+      --papel: #fff9e9;
+      --tinta: #24384b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100svh;
+      margin: 0;
+      padding: 40px 28px;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(ellipse at top, #345d81, transparent 70%),
+        var(--azul-oscuro);
+      color: var(--tinta);
+      font-family: Arial, sans-serif;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .tarjeta {
+      position: relative;
+      isolation: isolate;
+      width: 100%;
+      max-width: 590px;
+      padding: 54px 34px 42px;
+      border: 1px solid #d9bf85;
+      border-radius: 5px;
+      background:
+        radial-gradient(ellipse at center, #fffdf5, transparent 85%),
+        var(--papel);
+      box-shadow:
+        0 24px 65px #0005,
+        inset 0 0 40px #bb8b3020;
+      text-align: center;
+    }
+
+    /* Rodillos del pergamino. */
+    .tarjeta::before,
+    .tarjeta::after {
+      content: "";
+      position: absolute;
+      top: -13px;
+      bottom: -13px;
+      width: 19px;
+      border: 1px solid #a77a35;
+      border-radius: 8px;
+      background: linear-gradient(
+        90deg,
+        #a67a38,
+        #efdba5 48%,
+        #b58b48
+      );
+      box-shadow: 0 5px 10px #0003;
+    }
+
+    .tarjeta::before {
+      left: -12px;
+    }
+
+    .tarjeta::after {
+      right: -12px;
+    }
+
+    .banda {
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      height: 12px;
+      border-top: 5px solid var(--azul);
+      border-bottom: 2px solid var(--azul);
+      pointer-events: none;
+    }
+
+    .banda.arriba {
+      top: 18px;
+    }
+
+    .banda.abajo {
+      bottom: 18px;
+    }
+
+    .hebreo {
+      margin: 0 0 8px;
+      color: #886321;
+      font: 23px Georgia, serif;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--azul);
+      font: 700 clamp(1.8rem, 5vw, 2.7rem)/1.15 Georgia, serif;
+    }
+
+    .intro {
+      max-width: 340px;
+      margin: 14px auto 22px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .candado {
+      display: block;
+      width: 102px;
+      height: 118px;
+      margin: 22px auto;
+      overflow: visible;
+      filter: drop-shadow(0 5px 3px #67471525);
+    }
+
+    .candado-arco {
+      transform-origin: 88px 59px;
+      transition: transform 500ms ease;
+    }
+
+    .candado.abierto .candado-arco {
+      transform: translateY(-10px) rotate(24deg);
+    }
+
+    .codigo {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      max-width: 380px;
+      margin: 0 auto 24px;
+    }
+
+    .casillero {
+      min-width: 0;
+      cursor: text;
+    }
+
+    .simbolo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 36px;
+      margin-bottom: 6px;
+      font-size: 27px;
+    }
+
+    .simbolo svg {
+      width: 37px;
+      height: 30px;
+    }
+
+    .nombre {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      margin-bottom: 10px;
+      color: var(--azul);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .digito {
+      width: 100%;
+      height: 83px;
+      padding: 0;
+      border: 1px solid #c5aa72;
+      border-bottom: 4px solid var(--dorado);
+      border-radius: 9px;
+      background: #fffdf6;
+      color: var(--azul);
+      font: 700 37px Georgia, serif;
+      text-align: center;
+      caret-color: var(--dorado);
+      box-shadow: inset 0 2px 5px #7a5a1810;
+    }
+
+    .digito:focus {
+      border-color: var(--azul);
+      outline: 3px solid #9cb7cc;
+      outline-offset: 3px;
+    }
+
+    .aceptar {
+      width: 100%;
+      max-width: 300px;
+      padding: 15px 22px;
+      border: 1px solid var(--azul-oscuro);
+      border-radius: 9px;
+      background: var(--azul);
+      color: #fff9e9;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 0 var(--azul-oscuro);
+      transition: background 150ms, transform 150ms;
+    }
+
+    .aceptar:hover {
+      background: #24517b;
+    }
+
+    .aceptar:active {
+      transform: translateY(2px);
+    }
+
+    .aceptar:focus-visible {
+      outline: 3px solid var(--dorado);
+      outline-offset: 4px;
+    }
+
+    .mensaje {
+      min-height: 38px;
+      margin: 17px 0 0;
+      color: #943b2b;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .exito {
+      padding: 8px 0 18px;
+      animation: aparecer 350ms ease;
+    }
+
+    .exito h2 {
+      margin: 0 0 10px;
+      color: var(--azul);
+      font: 700 30px Georgia, serif;
+    }
+
+    .exito h2:focus {
+      outline: none;
+    }
+
+    .exito p {
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .sacudir {
+      animation: sacudir 350ms ease;
+    }
+
+    #confeti {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    @keyframes sacudir {
+      0%, 100% {
+        transform: translateX(0);
+      }
+
+      25%, 75% {
+        transform: translateX(-5px);
+      }
+
+      50% {
+        transform: translateX(5px);
+      }
+    }
+
+    @keyframes aparecer {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 420px) {
+      body {
+        padding: 28px 24px;
+      }
+
+      .tarjeta {
+        padding: 48px 17px 32px;
+      }
+
+      .hebreo {
+        font-size: 20px;
+      }
+
+      .codigo {
+        gap: 8px;
+      }
+
+      .nombre {
+        font-size: 11px;
+      }
+
+      .digito {
+        height: 68px;
+        font-size: 32px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
 
-    <!-- Confetti Canvas -->
-    <canvas id="confetti-canvas"></canvas>
+<body>
+  <canvas id="confeti" aria-hidden="true"></canvas>
 
-    <!-- Main Container Card (Terracota/Brown #b36b39) -->
-    <div id="main-card" class="relative w-full max-w-md bg-[#b36b39] rounded-3xl shadow-2xl p-8 md:p-12 flex flex-col items-center text-center transition-all duration-300 z-10">
-        
-        <!-- Instruction Text matching the window background color (#f4d9b0) -->
-        <h1 id="main-title" class="text-[#f4d9b0] text-xl md:text-2xl font-bold leading-snug mb-8 tracking-wide drop-shadow-sm">
-            Usando los números que conseguiste en cada juego, escribí el código correcto para ganar
-        </h1>
+  <main class="tarjeta">
+    <div class="banda arriba" aria-hidden="true"></div>
+    <div class="banda abajo" aria-hidden="true"></div>
 
-        <!-- Interactive Content Wrapper (to be hidden on success) -->
-        <div id="interactive-content" class="w-full flex flex-col items-center">
-            <!-- Padlock Icon SVG -->
-            <div class="mb-8 transform hover:scale-105 transition-transform duration-300">
-                <svg class="w-16 h-20 md:w-20 md:h-24 drop-shadow-md" viewBox="0 0 80 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Shackle (Blue) -->
-                    <path d="M20 40V28C20 15.2975 30.2975 5 43 5C55.7025 5 66 15.2975 66 28V40" stroke="#8ab4f8" stroke-width="12" stroke-linecap="round"/>
-                    <!-- Body (Orange) -->
-                    <rect x="10" y="40" width="60" height="50" rx="12" fill="#ffa114"/>
-                    <!-- Keyhole -->
-                    <circle cx="40" cy="60" r="6" fill="#6c4217"/>
-                    <path d="M37 60H43V74H37V60Z" fill="#6c4217"/>
-                </svg>
-            </div>
+    <p class="hebreo" lang="he" dir="rtl">חגי תשרי</p>
 
-            <!-- 4 Input Fields -->
-            <div id="code-container" class="flex justify-center gap-3 md:gap-4 mb-8 w-full max-w-xs">
-                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code"
-                    class="code-input w-12 h-20 md:w-14 md:h-24 bg-[#6c4217] text-[#f4d9b0] text-3xl md:text-4xl font-bold text-center rounded-full focus:outline-none focus:ring-4 focus:ring-[#f4d9b0] transition-all shadow-inner caret-transparent cursor-pointer" />
-                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*"
-                    class="code-input w-12 h-20 md:w-14 md:h-24 bg-[#6c4217] text-[#f4d9b0] text-3xl md:text-4xl font-bold text-center rounded-full focus:outline-none focus:ring-4 focus:ring-[#f4d9b0] transition-all shadow-inner caret-transparent cursor-pointer" />
-                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*"
-                    class="code-input w-12 h-20 md:w-14 md:h-24 bg-[#6c4217] text-[#f4d9b0] text-3xl md:text-4xl font-bold text-center rounded-full focus:outline-none focus:ring-4 focus:ring-[#f4d9b0] transition-all shadow-inner caret-transparent cursor-pointer" />
-                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*"
-                    class="code-input w-12 h-20 md:w-14 md:h-24 bg-[#6c4217] text-[#f4d9b0] text-3xl md:text-4xl font-bold text-center rounded-full focus:outline-none focus:ring-4 focus:ring-[#f4d9b0] transition-all shadow-inner caret-transparent cursor-pointer" />
-            </div>
+    <h1 id="titulo">El candado de Tishrei</h1>
 
-            <!-- Accept Button (Background color: #f4d9b0, Text color: #b36b39) -->
-            <button id="accept-btn" onclick="validateCode()" class="w-full max-w-xs py-3.5 px-6 bg-[#f4d9b0] text-[#b36b39] font-bold text-lg md:text-xl rounded-2xl shadow-lg hover:bg-white active:scale-95 transition-all duration-200">
-                Aceptar
-            </button>
-        </div>
+    <p id="intro" class="intro">
+      Poné los números que ganaste en los cuatro juegos.
+    </p>
 
-        <!-- Success Message Area (Hidden by default) -->
-        <div id="success-container" class="hidden flex-col items-center justify-center py-6 w-full animate-fade-in">
-            <div class="text-6xl md:text-7xl mb-4 animate-bounce">🎉</div>
-            <h2 id="success-msg" class="text-[#f4d9b0] text-2xl md:text-3xl font-extrabold tracking-wide drop-shadow-md">
-                ¡Bien hecho ganaste!
-            </h2>
-        </div>
+    <svg
+      id="candado"
+      class="candado"
+      viewBox="0 0 128 144"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-label="Candado cerrado"
+    >
+      <defs>
+        <linearGradient id="oro" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#eedba1"/>
+          <stop offset=".5" stop-color="#d3ad5e"/>
+          <stop offset="1" stop-color="#aa7931"/>
+        </linearGradient>
+      </defs>
 
-        <!-- Error Message Feedback -->
-        <div id="message-container" class="h-8 flex items-center justify-center mt-4">
-            <p id="feedback-msg" class="text-amber-100 text-sm md:text-base font-semibold opacity-0 transition-opacity duration-300"></p>
-        </div>
+      <path
+        class="candado-arco"
+        d="M40 63V35a24 24 0 0 1 48 0v28"
+        fill="none"
+        stroke="#52718b"
+        stroke-width="12"
+        stroke-linecap="round"
+      />
 
-    </div>
+      <rect
+        x="18" y="57" width="92" height="75" rx="13"
+        fill="url(#oro)" stroke="#a77a35"
+      />
 
-    <!-- JavaScript Logic & Confetti Engine -->
-    <script>
-        const CORRECT_CODE = "5787";
-        const inputs = document.querySelectorAll('.code-input');
-        const feedbackMsg = document.getElementById('feedback-msg');
-        const interactiveContent = document.getElementById('interactive-content');
-        const mainTitle = document.getElementById('main-title');
-        const successContainer = document.getElementById('success-container');
-        const messageContainer = document.getElementById('message-container');
+      <rect
+        x="24" y="63" width="80" height="63" rx="9"
+        fill="none" stroke="#fff1c5" opacity=".55"
+      />
 
-        // Handle auto-focus and input navigation
-        inputs.forEach((input, index) => {
-            if (index === 0) {
-                setTimeout(() => input.focus(), 100);
-            }
+      <!-- Menorá de siete brazos. -->
+      <g
+        fill="none"
+        stroke="#624b28"
+        stroke-width="2.6"
+        stroke-linecap="round"
+      >
+        <path d="M64 78v38M54 117h20"/>
+        <path d="M43 79v6c0 27 42 27 42 0v-6"/>
+        <path d="M50 79v6c0 18 28 18 28 0v-6"/>
+        <path d="M57 79v6c0 9 14 9 14 0v-6"/>
+      </g>
 
-            input.addEventListener('input', (e) => {
-                const digit = e.target.value.replace(/[^0-9]/g, '').slice(-1);
-                e.target.value = digit;
+      <g fill="#624b28">
+        <circle cx="43" cy="74" r="2"/>
+        <circle cx="50" cy="74" r="2"/>
+        <circle cx="57" cy="74" r="2"/>
+        <circle cx="64" cy="73" r="2"/>
+        <circle cx="71" cy="74" r="2"/>
+        <circle cx="78" cy="74" r="2"/>
+        <circle cx="85" cy="74" r="2"/>
+      </g>
+    </svg>
 
-                if (digit && index < inputs.length - 1) {
-                    inputs[index + 1].focus();
-                }
-                feedbackMsg.classList.add('opacity-0');
-            });
+    <form id="formulario" novalidate>
+      <div
+        id="codigo"
+        class="codigo"
+        role="group"
+        aria-label="Código de cuatro números"
+      >
+        <label class="casillero">
+          <span class="simbolo" aria-hidden="true">🍎</span>
+          <span class="nombre">Rosh<br>Hashaná</span>
 
-            input.addEventListener('keydown', (e) => {
-                if (e.key === 'Backspace') {
-                    if (input.value === '' && index > 0) {
-                        inputs[index - 1].focus();
-                        inputs[index - 1].value = '';
-                    } else {
-                        input.value = '';
-                    }
-                    feedbackMsg.classList.add('opacity-0');
-                    e.preventDefault();
-                } else if (e.key === 'ArrowLeft' && index > 0) {
-                    inputs[index - 1].focus();
-                } else if (e.key === 'ArrowRight' && index < inputs.length - 1) {
-                    inputs[index + 1].focus();
-                } else if (e.key === 'Enter') {
-                    validateCode();
-                }
-            });
+          <input
+            class="digito"
+            type="text"
+            inputmode="numeric"
+            pattern="[0-9]"
+            maxlength="1"
+            autocomplete="one-time-code"
+            aria-label="Número de Rosh Hashaná"
+            aria-describedby="mensaje"
+          >
+        </label>
 
-            input.addEventListener('focus', () => input.select());
+        <label class="casillero">
+          <span class="simbolo" aria-hidden="true">
+            <svg
+              viewBox="0 0 48 36"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 7c1 14 8 22 19 21 9-1 15-8 18-18l-10-5c-1 9-4 15-9 16-6 1-10-5-12-15Z"
+                fill="#b68b42"
+                stroke="#78582c"
+                stroke-width="1.6"
+                stroke-linejoin="round"
+              />
+              <path
+                d="m30 14 9 5M27 19l8 5M20 22l3 6M13 18l-3 4"
+                fill="none"
+                stroke="#e8cc8b"
+                stroke-width="2"
+              />
+            </svg>
+          </span>
+
+          <span class="nombre">Iom<br>Kipur</span>
+
+          <input
+            class="digito"
+            type="text"
+            inputmode="numeric"
+            pattern="[0-9]"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Número de Iom Kipur"
+            aria-describedby="mensaje"
+          >
+        </label>
+
+        <label class="casillero">
+          <span class="simbolo" aria-hidden="true">🌿</span>
+          <span class="nombre">Sucot</span>
+
+          <input
+            class="digito"
+            type="text"
+            inputmode="numeric"
+            pattern="[0-9]"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Número de Sucot"
+            aria-describedby="mensaje"
+          >
+        </label>
+
+        <label class="casillero">
+          <span class="simbolo" aria-hidden="true">
+            <svg
+              viewBox="0 0 48 36"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10 7h28v23H10Z"
+                fill="#f5e6bb"
+                stroke="#b68b42"
+                stroke-width="1.5"
+              />
+              <path
+                d="M24 8v21M16 13h5m6 0h5m-16 5h5m6 0h5m-16 5h5m6 0h5"
+                stroke="#183b60"
+                stroke-width="1.5"
+              />
+              <path
+                d="M9 4v28M39 4v28"
+                stroke="#8b632e"
+                stroke-width="6"
+                stroke-linecap="round"
+              />
+              <path
+                d="M6 4h6M36 4h6M6 32h6m24 0h6"
+                stroke="#b68b42"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+            </svg>
+          </span>
+
+          <span class="nombre">Simjat<br>Torá</span>
+
+          <input
+            class="digito"
+            type="text"
+            inputmode="numeric"
+            pattern="[0-9]"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Número de Simjat Torá"
+            aria-describedby="mensaje"
+          >
+        </label>
+      </div>
+
+      <button class="aceptar" type="submit">
+        Abrir el candado
+      </button>
+
+      <p
+        id="mensaje"
+        class="mensaje"
+        role="status"
+        aria-live="polite"
+      ></p>
+    </form>
+
+    <section
+      id="exito"
+      class="exito"
+      aria-labelledby="mensaje-exito"
+      hidden
+    >
+      <h2 id="mensaje-exito" tabindex="-1">
+        ¡Abriste el candado!
+      </h2>
+      <p>Completaste los cuatro juegos.</p>
+    </section>
+  </main>
+
+  <script>
+    const CODIGO_CORRECTO = '5787';
+
+    const formulario = document.getElementById('formulario');
+    const codigo = document.getElementById('codigo');
+    const campos = document.querySelectorAll('.digito');
+    const mensaje = document.getElementById('mensaje');
+    const intro = document.getElementById('intro');
+    const candado = document.getElementById('candado');
+    const exito = document.getElementById('exito');
+    const mensajeExito = document.getElementById('mensaje-exito');
+
+    const movimientoReducido = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    );
+
+    let ganado = false;
+
+    for (let i = 0; i < campos.length; i++) {
+      const campo = campos[i];
+
+      campo.addEventListener('input', function () {
+        campo.value = campo.value.replace(/[^0-9]/g, '').slice(-1);
+        mensaje.textContent = '';
+
+        if (campo.value !== '' && i < campos.length - 1) {
+          campos[i + 1].focus();
+        }
+      });
+
+      campo.addEventListener('paste', function (evento) {
+        if (!evento.clipboardData) return;
+
+        evento.preventDefault();
+
+        const numeros = evento.clipboardData
+          .getData('text')
+          .replace(/[^0-9]/g, '');
+
+        if (numeros === '') return;
+
+        let posicion = i;
+
+        for (
+          let j = 0;
+          j < numeros.length && posicion < campos.length;
+          j++
+        ) {
+          campos[posicion].value = numeros[j];
+          posicion++;
+        }
+
+        if (posicion >= campos.length) {
+          posicion = campos.length - 1;
+        }
+
+        campos[posicion].focus();
+        mensaje.textContent = '';
+      });
+
+      campo.addEventListener('keydown', function (evento) {
+        if (evento.key === 'Backspace') {
+          evento.preventDefault();
+
+          if (campo.value === '' && i > 0) {
+            campos[i - 1].value = '';
+            campos[i - 1].focus();
+          } else {
+            campo.value = '';
+          }
+
+          mensaje.textContent = '';
+        } else if (evento.key === 'ArrowLeft' && i > 0) {
+          evento.preventDefault();
+          campos[i - 1].focus();
+        } else if (
+          evento.key === 'ArrowRight' &&
+          i < campos.length - 1
+        ) {
+          evento.preventDefault();
+          campos[i + 1].focus();
+        }
+      });
+
+      campo.addEventListener('focus', function () {
+        campo.select();
+      });
+
+      campo.addEventListener('click', function () {
+        campo.select();
+      });
+    }
+
+    formulario.addEventListener('submit', function (evento) {
+      evento.preventDefault();
+      validarCodigo();
+    });
+
+    codigo.addEventListener('animationend', function () {
+      codigo.classList.remove('sacudir');
+    });
+
+    function validarCodigo() {
+      if (ganado) return;
+
+      let valor = '';
+
+      for (let i = 0; i < campos.length; i++) {
+        if (campos[i].value === '') {
+          mensaje.textContent = 'Completá los cuatro números.';
+          campos[i].focus();
+          return;
+        }
+
+        valor += campos[i].value;
+      }
+
+      if (valor !== CODIGO_CORRECTO) {
+        mensaje.textContent =
+          'Ese código no abre el candado. Probá de nuevo.';
+
+        if (!movimientoReducido.matches) {
+          codigo.classList.add('sacudir');
+        }
+
+        campos[0].focus();
+        return;
+      }
+
+      ganado = true;
+      intro.hidden = true;
+      formulario.hidden = true;
+
+      candado.classList.add('abierto');
+      candado.setAttribute('aria-label', 'Candado abierto');
+
+      exito.hidden = false;
+      mensajeExito.focus();
+
+      iniciarConfeti();
+    }
+
+    const lienzo = document.getElementById('confeti');
+    const contexto = lienzo.getContext('2d');
+
+    const colores = [
+      '#183b60',
+      '#b68b42',
+      '#efdb9e',
+      '#ffffff',
+      '#7fabc7'
+    ];
+
+    const particulas = [];
+
+    function ajustarLienzo() {
+      lienzo.width = window.innerWidth;
+      lienzo.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', ajustarLienzo);
+    ajustarLienzo();
+
+    function iniciarConfeti() {
+      if (!contexto || movimientoReducido.matches) return;
+
+      for (let i = 0; i < 120; i++) {
+        particulas.push({
+          x: lienzo.width / 2,
+          y: lienzo.height / 2,
+          vx: (Math.random() - 0.5) * 16,
+          vy: (Math.random() - 1) * 16 - 4,
+          tamano: Math.random() * 8 + 4,
+          color: colores[Math.floor(Math.random() * colores.length)],
+          rotacion: Math.random() * 360,
+          giro: (Math.random() - 0.5) * 10
         });
+      }
 
-        function validateCode() {
-            let currentCode = "";
-            inputs.forEach(input => {
-                currentCode += input.value;
-            });
+      animarConfeti();
+    }
 
-            if (currentCode.length < 4) {
-                feedbackMsg.textContent = "Completá todos los números";
-                feedbackMsg.classList.remove('opacity-0');
-                return;
-            }
+    function animarConfeti() {
+      contexto.clearRect(0, 0, lienzo.width, lienzo.height);
 
-            if (currentCode === CORRECT_CODE) {
-                // Hide title, interactive elements, and feedback area completely
-                mainTitle.style.display = 'none';
-                interactiveContent.style.display = 'none';
-                messageContainer.style.display = 'none';
-                
-                // Show success message container
-                successContainer.classList.remove('hidden');
-                successContainer.classList.add('flex');
+      for (let i = particulas.length - 1; i >= 0; i--) {
+        const particula = particulas[i];
 
-                // Trigger Confetti Effect
-                startConfetti();
-            } else {
-                feedbackMsg.textContent = "Código incorrecto, ¡intentá de nuevo!";
-                feedbackMsg.classList.remove('opacity-0');
-                
-                // Shake animation on error
-                const container = document.getElementById('code-container');
-                container.classList.add('animate-pulse');
-                setTimeout(() => container.classList.remove('animate-pulse'), 500);
-            }
+        particula.x += particula.vx;
+        particula.y += particula.vy;
+        particula.vy += 0.35;
+        particula.rotacion += particula.giro;
+
+        if (particula.y > lienzo.height + 50) {
+          particulas.splice(i, 1);
+          continue;
         }
 
-        /* Confetti Animation Script */
-        const canvas = document.getElementById('confetti-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        let animationId = null;
+        contexto.save();
+        contexto.translate(particula.x, particula.y);
+        contexto.rotate(particula.rotacion * Math.PI / 180);
+        contexto.fillStyle = particula.color;
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
+        contexto.fillRect(
+          -particula.tamano / 2,
+          -particula.tamano / 2,
+          particula.tamano,
+          particula.tamano * 0.6
+        );
 
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+        contexto.restore();
+      }
 
-        function startConfetti() {
-            particles = [];
-            const colors = ['#b36b39', '#ffa114', '#8ab4f8', '#ffffff', '#eab308', '#22c55e', '#ec4899'];
-            
-            for (let i = 0; i < 150; i++) {
-                particles.push({
-                    x: canvas.width / 2,
-                    y: canvas.height / 2,
-                    vx: (Math.random() - 0.5) * 16,
-                    vy: (Math.random() - 1) * 16 - 4,
-                    size: Math.random() * 8 + 4,
-                    color: colors[Math.floor(Math.random() * colors.length)],
-                    rotation: Math.random() * 360,
-                    rotationSpeed: (Math.random() - 0.5) * 10,
-                    gravity: 0.35,
-                    opacity: 1
-                });
-            }
-
-            if (!animationId) {
-                loopConfetti();
-            }
-        }
-
-        function loopConfetti() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            particles.forEach((p, index) => {
-                p.x += p.vx;
-                p.y += p.vy;
-                p.vy += p.gravity;
-                p.rotation += p.rotationSpeed;
-
-                ctx.save();
-                ctx.translate(p.x, p.y);
-                ctx.rotate((p.rotation * Math.PI) / 180);
-                ctx.fillStyle = p.color;
-                ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
-                ctx.restore();
-
-                if (p.y > canvas.height + 50) {
-                    particles.splice(index, 1);
-                }
-            });
-
-            if (particles.length > 0) {
-                animationId = requestAnimationFrame(loopConfetti);
-            } else {
-                animationId = null;
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-            }
-        }
-    </script>
+      if (particulas.length > 0) {
+        requestAnimationFrame(animarConfeti);
+      }
+    }
+  </script>
 </body>
 </html>
